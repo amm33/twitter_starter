@@ -3,21 +3,29 @@ import TweetInput from "./TweetInput";
 import "./TweetBox.css";
 
 export default function TweetBox(props) {
+  function handleOnTweetTextChange(change) {
+    props.setTweetText(change.target.value);
+  }
   function handleOnSubmit() {
+    //created a new object
     var newTweet = {
       name: props.userProfile.name,
       handle: props.userProfile.handle,
-      text: "",
+      text: props.tweetText,
       comments: 0,
       retweets: 0,
       likes: 0,
       id: props.tweets.length,
     };
-    props.setTweets(props.tweets.concat(newTweet));
+    props.setTweets(props.tweets.concat(newTweet)); //set the new tweet and added to an array of tweets
+    props.setTweetText("");
   }
   return (
     <div className="tweet-box">
-      <TweetInput />
+      <TweetInput
+        value={props.tweetText}
+        handleOnChange={handleOnTweetTextChange}
+      />
 
       <div className="tweet-box-footer">
         <TweetBoxIcons />
@@ -41,14 +49,28 @@ export function TweetBoxIcons() {
 
 export function TweetCharacterCount(props) {
   // ADD CODE HERE
-  return <span></span>;
+  var userLength = 140 - props.tweet.length;
+  var className;
+  if (userLength === 140) {
+    return <span className="tweet-length"></span>;
+  }
+  if (userLength < 0) {
+    className = "tweet-length red";
+  } else {
+    className = "tweet-length ";
+  }
+  return <span className={className}>{length}</span>;
 }
 
 export function TweetSubmitButton({ handleOnSubmit }) {
   return (
     <div className="tweet-submit">
       <i className="fas fa-plus-circle"></i>
-      <button className="tweet-submit-button" onClick={handleOnSubmit}>
+      <button
+        className="tweet-submit-button"
+        onClick={handleOnSubmit}
+        // disabled={props.tweetlength === 0 || props.tweetlength > 140}
+      >
         Tweet
       </button>
     </div>
