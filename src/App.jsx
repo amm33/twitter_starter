@@ -19,6 +19,7 @@ export default function App() {
         <Feed
           tweets={tweets}
           userProfile={userProfile}
+          setUserProfile={setUserProfile}
           setTweets={setTweets}
           tweetText={tweetText}
           setTweetText={setTweetText}
